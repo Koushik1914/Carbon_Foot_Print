@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Change to the script's directory so relative paths work correctly
+cd "$(dirname "$0")"
+
 # 1. Validation of inputs
 if [ -z "${PROJECT_ID:-}" ]; then
   echo "ERROR: PROJECT_ID environment variable is missing." >&2
