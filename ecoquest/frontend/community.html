@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoQuest — Community Feed & Eco Clubs</title>
+  <meta name="description" content="Share your eco actions with the community, join Eco Clubs, and log your carbon-saving accomplishments.">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Stateless User Identification Bar -->
+  <div class="user-identity-bar">
+    <div class="user-identity-container">
+      <div>
+        <span>👤 <strong>Stateless User Context:</strong></span>
+        <label for="config-user-id" style="margin-left: 0.5rem;">ID:</label>
+        <input type="text" id="config-user-id" placeholder="e.g. user_1">
+        <label for="config-user-name" style="margin-left: 0.5rem;">Name:</label>
+        <input type="text" id="config-user-name" placeholder="e.g. Koushik">
+        <label for="config-user-type" style="margin-left: 0.5rem;">Type:</label>
+        <select id="config-user-type">
+          <option value="student">Student/Hostel Resident</option>
+          <option value="working professional">Working Professional</option>
+          <option value="family">Family/Home Owner</option>
+        </select>
+        <button class="btn-primary-sm" onclick="updateCurrentUser()" style="margin-left: 0.5rem;">Switch User</button>
+      </div>
+      <div>
+        <span style="font-size: 0.8rem; opacity: 0.9;">Stateless profile details simulate client state</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="logo-link">
+        <div class="logo-icon">EQ</div>
+        <span>EcoQuest</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" id="nav-dashboard">Dashboard</a></li>
+          <li><a href="community.html" class="active" id="nav-community">Community Feed</a></li>
+        </ul>
+      </nav>
+      <div class="user-badge" id="header-user-badge">
+        <span id="header-user-name">Loading...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body Content -->
+  <main class="container">
+    <div class="dashboard-grid">
+      
+      <!-- Left Column: Community Log Form & Feed -->
+      <section>
+        
+        <!-- Log Action Form -->
+        <div class="card post-form-card" id="post-form-card">
+          <h2 class="card-title">Log an Eco Action</h2>
+          <form id="post-action-form">
+            <div class="form-group">
+              <label for="post-action-text">What did you do today?</label>
+              <textarea id="post-action-text" class="form-input" rows="3" placeholder="e.g., Composted food scraps, switched to LED bulbs, or took the metro to work!" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="post-challenge-select">Link to an Active Challenge (Optional)</label>
+              <select id="post-challenge-select" class="form-select">
+                <option value="">-- Optional: Link to preset challenge --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="post-club-select">Post to an Eco Club (Optional)</label>
+              <select id="post-club-select" class="form-select">
+                <option value="">-- Personal Feed Only --</option>
+                <option value="green-campus">Green Campus Network</option>
+                <option value="clean-commuters">Clean Commuters Club</option>
+                <option value="zero-waste-warriors">Zero-Waste Warriors</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="post-image-url">Image Link (Optional)</label>
+              <input type="url" id="post-image-url" class="form-input" placeholder="e.g., https://images.unsplash.com/... (Image URL)">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="post-submit-btn">Share Action</button>
+          </form>
+        </div>
+
+        <!-- Community Feed -->
+        <h2 style="font-family: var(--font-headings); color: var(--primary); margin-bottom: 1rem;">Community Activity</h2>
+        <div class="feed-container" id="feed-container">
+          <div class="empty-state">Loading community feed...</div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Eco Clubs -->
+      <section>
+        <div class="card">
+          <h2 class="card-title">Eco Clubs</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Join a club and participate collectively. Submitting a post to a club updates their member metrics atomically and places you on their leaderboard!
+          </p>
+          <div class="feed-container" id="clubs-container">
+            <div class="empty-state">Loading Eco Clubs...</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- EcoBuddy Collapsible Chat Panel -->
+  <div class="chat-widget collapsed" id="chat-widget">
+    <div class="chat-header" id="chat-header">
+      <div class="chat-title">
+        <span>💬</span>
+        <span>EcoBuddy AI Coach</span>
+      </div>
+      <div class="chat-toggle-icon" id="chat-toggle-icon">▲</div>
+    </div>
+    <div class="chat-body">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-bubble bubble-buddy">
+          Hi! I am EcoBuddy, your personalized sustainability coach. Take the carbon quiz and ask me anything about reducing your footprint!
+        </div>
+      </div>
+      <form class="chat-footer" id="chat-form">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Ask EcoBuddy..." required autocomplete="off">
+        <button type="submit" class="btn-send" id="chat-send-btn">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

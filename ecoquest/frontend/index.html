@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoQuest — Carbon Footprint Awareness Platform</title>
+  <meta name="description" content="Calculate your footprint, complete eco challenges, climb the leaderboard, and consult your personal AI coach EcoBuddy.">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Stateless User Identification Bar -->
+  <div class="user-identity-bar">
+    <div class="user-identity-container">
+      <div>
+        <span>👤 <strong>Stateless User Context:</strong></span>
+        <label for="config-user-id" style="margin-left: 0.5rem;">ID:</label>
+        <input type="text" id="config-user-id" placeholder="e.g. user_1">
+        <label for="config-user-name" style="margin-left: 0.5rem;">Name:</label>
+        <input type="text" id="config-user-name" placeholder="e.g. Koushik">
+        <label for="config-user-type" style="margin-left: 0.5rem;">Type:</label>
+        <select id="config-user-type">
+          <option value="student">Student/Hostel Resident</option>
+          <option value="working professional">Working Professional</option>
+          <option value="family">Family/Home Owner</option>
+        </select>
+        <button class="btn-primary-sm" onclick="updateCurrentUser()" style="margin-left: 0.5rem;">Switch User</button>
+      </div>
+      <div>
+        <span style="font-size: 0.8rem; opacity: 0.9;">Stateless profile details simulate client state</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" id="logo-link">
+        <div class="logo-icon">EQ</div>
+        <span>EcoQuest</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active" id="nav-dashboard">Dashboard</a></li>
+          <li><a href="community.html" id="nav-community">Community Feed</a></li>
+        </ul>
+      </nav>
+      <div class="user-badge" id="header-user-badge">
+        <span id="header-user-name">Loading...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body Content -->
+  <main class="container">
+    <div class="dashboard-grid">
+      
+      <!-- Left Column: Quiz SPA or Results Dashboard -->
+      <section class="card" id="main-flow-card">
+        <h2 class="card-title" id="flow-title">Calculate Your Monthly Footprint</h2>
+        
+        <!-- Multi-Step Progress Bar -->
+        <div class="progress-container" id="quiz-progress-container">
+          <div class="progress-bar" id="quiz-progress"></div>
+        </div>
+
+        <!-- Quiz Forms -->
+        <form id="footprint-quiz-form">
+          
+          <!-- Step 1: Transport -->
+          <div class="quiz-step active" id="step-1">
+            <h3 style="margin-bottom: 1.5rem;">Step 1 of 3: Daily Commute & Transport</h3>
+            <div class="form-group">
+              <label>What is your primary mode of transportation?</label>
+              <div class="quiz-options">
+                <div class="quiz-option-card" data-group="transport" data-value="car">
+                  <span style="font-size: 2rem;">🚗</span>
+                  <strong>Personal Car</strong>
+                </div>
+                <div class="quiz-option-card" data-group="transport" data-value="public">
+                  <span style="font-size: 2rem;">🚌</span>
+                  <strong>Public Transit</strong>
+                </div>
+                <div class="quiz-option-card" data-group="transport" data-value="bike_walk">
+                  <span style="font-size: 2rem;">🚲</span>
+                  <strong>Walking / Biking</strong>
+                </div>
+              </div>
+              <input type="hidden" id="quiz-transport" name="transport_type" value="">
+            </div>
+            <div class="form-group">
+              <label for="quiz-distance">Approximately how many kilometers do you travel in a month?</label>
+              <input type="number" id="quiz-distance" class="form-input" min="0" placeholder="e.g. 300" required>
+            </div>
+            <div class="btn-container">
+              <div></div>
+              <button type="button" class="btn btn-primary btn-next" id="step1-next">Next step</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Diet -->
+          <div class="quiz-step" id="step-2">
+            <h3 style="margin-bottom: 1.5rem;">Step 2 of 3: Dietary Patterns</h3>
+            <div class="form-group">
+              <label>Select the choice that best matches your monthly diet:</label>
+              <div class="quiz-options">
+                <div class="quiz-option-card" data-group="diet" data-value="meat">
+                  <span style="font-size: 2rem;">🥩</span>
+                  <strong>Meat Eater</strong>
+                </div>
+                <div class="quiz-option-card" data-group="diet" data-value="vegetarian">
+                  <span style="font-size: 2rem;">🧀</span>
+                  <strong>Vegetarian</strong>
+                </div>
+                <div class="quiz-option-card" data-group="diet" data-value="vegan">
+                  <span style="font-size: 2rem;">🥗</span>
+                  <strong>Vegan</strong>
+                </div>
+              </div>
+              <input type="hidden" id="quiz-diet" name="diet_type" value="">
+            </div>
+            <div class="btn-container">
+              <button type="button" class="btn btn-secondary btn-prev" id="step2-prev">Back</button>
+              <button type="button" class="btn btn-primary btn-next" id="step2-next">Next step</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Electricity -->
+          <div class="quiz-step" id="step-3">
+            <h3 style="margin-bottom: 1.5rem;">Step 3 of 3: Household Electricity</h3>
+            <div class="form-group">
+              <label for="quiz-electricity">What is your monthly household electricity usage in kWh?</label>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Check your recent utility bill. (Avg. Indian urban household is ~150-250 kWh)
+              </p>
+              <input type="number" id="quiz-electricity" class="form-input" min="0" placeholder="e.g. 200" required>
+            </div>
+            <div class="btn-container">
+              <button type="button" class="btn btn-secondary btn-prev" id="step3-prev">Back</button>
+              <button type="submit" class="btn btn-primary" id="step3-submit">Analyze Footprint</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Results Dashboard Display -->
+          <div class="quiz-step" id="step-4">
+            <div class="results-display">
+              <!-- SVG Gauge Ring -->
+              <div class="gauge-container">
+                <svg class="gauge-svg" viewBox="0 0 200 200" id="results-gauge">
+                  <circle class="gauge-circle-bg" cx="100" cy="100" r="90"></circle>
+                  <circle class="gauge-circle-fill" id="gauge-fill" cx="100" cy="100" r="90"></circle>
+                </svg>
+                <div class="gauge-info">
+                  <div class="gauge-value" id="results-total-val">0</div>
+                  <div class="gauge-unit">kg CO2e / mo</div>
+                  <span class="comparison-chip" id="results-comp-chip">Checking...</span>
+                </div>
+              </div>
+
+              <!-- Breakdown Cards -->
+              <div style="flex-grow: 1; width: 100%;">
+                <h3 style="margin-bottom: 1rem;">Category Breakdown</h3>
+                <div class="breakdown-grid">
+                  <div class="breakdown-card">
+                    <span style="font-size: 1.5rem;">🚗</span>
+                    <div class="breakdown-card-val" id="breakdown-transport-val">0 kg</div>
+                    <div class="breakdown-card-lbl">Transport</div>
+                  </div>
+                  <div class="breakdown-card">
+                    <span style="font-size: 1.5rem;">🥩</span>
+                    <div class="breakdown-card-val" id="breakdown-diet-val">0 kg</div>
+                    <div class="breakdown-card-lbl">Diet</div>
+                  </div>
+                  <div class="breakdown-card">
+                    <span style="font-size: 1.5rem;">⚡</span>
+                    <div class="breakdown-card-val" id="breakdown-electricity-val">0 kg</div>
+                    <div class="breakdown-card-lbl">Electricity</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: center;">
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                Want to calculate again? Just click the button below to reset the form.
+              </p>
+              <button type="button" class="btn btn-secondary" onclick="goToQuizStep(1)" id="btn-quiz-reset">Retake Quiz</button>
+            </div>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Right Column: Active Challenges -->
+      <section class="card" id="challenges-card">
+        <h2 class="card-title">Active Challenges</h2>
+        <div class="challenge-list" id="challenges-container">
+          <div class="empty-state">Loading active challenges...</div>
+        </div>
+      </section>
+
+      <!-- Global Leaderboard (Full Width below) -->
+      <section class="card grid-full-width" id="leaderboard-card">
+        <h2 class="card-title">Global Leaderboard (Top 10)</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+          ⚠️ <strong>Score Formula:</strong> Ranked by compost score: 60% footprint improvement vs baseline, and 40% action points. Low baseline users are not penalized! Users with no baseline are excluded.
+        </p>
+        <div class="leaderboard-table-container">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Monthly Footprint</th>
+                <th>Action Points</th>
+                <th>Composite Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr>
+                <td colspan="5" class="empty-state">Loading leaderboard...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- EcoBuddy Collapsible Chat Panel -->
+  <div class="chat-widget collapsed" id="chat-widget">
+    <div class="chat-header" id="chat-header">
+      <div class="chat-title">
+        <span>💬</span>
+        <span>EcoBuddy AI Coach</span>
+      </div>
+      <div class="chat-toggle-icon" id="chat-toggle-icon">▲</div>
+    </div>
+    <div class="chat-body">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-bubble bubble-buddy">
+          Hi! I am EcoBuddy, your personalized sustainability coach. Take the carbon quiz and ask me anything about reducing your footprint!
+        </div>
+      </div>
+      <form class="chat-footer" id="chat-form">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Ask EcoBuddy..." required autocomplete="off">
+        <button type="submit" class="btn-send" id="chat-send-btn">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
