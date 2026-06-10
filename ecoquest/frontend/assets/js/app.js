@@ -4,7 +4,7 @@
 */
 
 // Configuration: Adjust to your deployed Cloud Run URL if running in production
-const API_BASE = 'http://localhost:8080'; 
+const API_BASE = 'https://ecoquest-backend-31525133238.us-central1.run.app'; 
 
 // Local App State
 const state = {
